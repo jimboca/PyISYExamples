@@ -10,12 +10,17 @@
 
 import re
 import requests
+import yaml
+
+stream = open('config.yaml', 'r') 
+config = yaml.load(stream)
+stream.close();
 
 def get_data(url):
     try:
         response = requests.get(
             url,
-            #auth=(username,passwod),
+            auth=(config['router_user'],config['router_password']),
             timeout=4
         )
     except requests.exceptions.Timeout:
@@ -30,23 +35,23 @@ def get_data(url):
             "please check your username and password")
         return
     else:
-        print("Invalid response from ddwrt: %s", response)
+        print("Invalid response from asus: %s", response)
 
 def client_connected(host):
     """Check of host is connected"""
     #f = open('update_clients.out', 'r')
     #data = f.readline()
     #f.close();
-    data = get_data("http://190.53.26.252/update_clients.asp")
+    url = 'http://{}/update_clients.asp'.format(config['router_host'])
+    data = get_data(url)
     data.strip().strip("client_list_array = '").strip("';")
     elements = data.split(',')
-    print(elements)
 
     aregex = re.compile(r'<[0-9]+>([^>]*)>([^>]*)>([^>]*)>')
 
     for item in elements:
         for name, ip, mac in aregex.findall(item):
-            print("name="+name+" ip="+ip+" mac="+mac)
+            #print("name="+name+" ip="+ip+" mac="+mac)
             if host == name:
                 return True
 

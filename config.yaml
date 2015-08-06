@@ -1,0 +1,11 @@
+
+isy_host: 192.168.1.64
+isy_port: 80
+isy_user: admin
+isy_password: notmypassword
+
+router_type: asus
+router_host: 190.53.26.252
+#router_host: 192.168.1.1
+router_user:
+router_password:
