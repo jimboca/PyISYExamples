@@ -1,5 +1,12 @@
 #!/usr/local/bin/python3.3
 #
+#
+# This code was modeled loosley after:
+#  https://github.com/balloob/home-assistant/blob/master/homeassistant/components/device_tracker/ddwrt.py
+# And I plan to port it to homeassistant sometime
+#
+# This can be tested with this address:  http://190.53.26.252/update_clients.asp
+#
 
 import re
 import requests
