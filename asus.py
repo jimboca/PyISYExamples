@@ -46,11 +46,23 @@ class AsusDeviceScanner(object):
             auth=(self.user,self.password),
             timeout=4
             )
+        print("Logout: "+str(response.status_code))
+
+    def refresh(self):
+        url = 'http://{}/apply.cgi?refresh_networkmap'.format(self.host)
+        response = requests.get(
+            url,
+            auth=(self.user,self.password),
+            timeout=4
+            )
+        print("Refresh: "+str(response.status_code))
 
     def client_connected(self,host):
         """Check of host is connected"""
-        print("client_connected: "+host)
+        self.refresh()
+        print("client_connected: "+self.host+":"+host)
         url = 'http://{}/update_clients.asp'.format(self.host)
+        print("url="+url)
         data = self.get_data(url)
         data.strip().strip("client_list_array = '").strip("';")
         elements = data.split(',')
@@ -63,5 +75,5 @@ class AsusDeviceScanner(object):
                 print("name="+name+" ip="+ip+" mac="+mac)
                 if host == name:
                     found = True
-        self.logout
+        self.logout()
         return found
