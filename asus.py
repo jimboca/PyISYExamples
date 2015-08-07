@@ -49,7 +49,8 @@ class AsusDeviceScanner(object):
         print("Logout: "+str(response.status_code))
 
     def refresh(self):
-        url = 'http://{}/apply.cgi?refresh_networkmap'.format(self.host)
+        #url = 'http://{}/apply.cgi?refresh_networkmap'.format(self.host)
+        url = 'http://{}/apply.cgi?update_client_list'.format(self.host)
         response = requests.get(
             url,
             auth=(self.user,self.password),
