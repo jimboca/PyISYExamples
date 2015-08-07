@@ -12,6 +12,8 @@
 
 from asus import AsusDeviceScanner
 
-sc = AsusDeviceScanner('192.168.1.1','admin','Wmb540i*')
+#http://190.53.26.252/apply.cgi?refresh_networkmap
+
+sc = AsusDeviceScanner('190.53.26.252','','*')
 #print(sc.client_connected('foo'))
-print(sc.client_connected('android-8c4066f'))
+#print(sc.client_connected('android-8c4066f'))
