@@ -1,22 +1,31 @@
 
+log_file: pylink.log
+log_level: 0
+
+
 isy_host: 192.168.1.64
 isy_port: 80
 isy_user: someuser
 isy_password: somepassword
 
-router_type: asus
-# test host
-#router_host: 190.53.26.252
-router_host: 192.168.1.1
-router_user: someuser
-router_password: somepassword
+monitors:
+  - name: DateAndTime
+    type: DateAndTime
+    level: minute
 
-log_file: pylink.log
+#  - name: Router
+#    type: router
+#    model: asus
+#    # test host
+#    #host: 190.53.26.252
+#    host: 192.168.1.1
+#    user: someuser
+#    password: somepassword
 
 devices:
   - name: Test
     ip: 192.168.1.60
-    type: pc
+    type: Test
     port: not_defined
     model: not_defined
     user: not_defined
@@ -24,8 +33,8 @@ devices:
 
   - name: MyCamera
     ip: 192.168.1.110
-    port: someport
-    type: camera
+    port: 8080
+    type: Foscam1
     model: foscam
     user: someuser
     password: somepassword

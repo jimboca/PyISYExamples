@@ -6,6 +6,8 @@
 # sudo pip-3.2 install collections
 # sudo pip-3.2 install pyaml
 # sudo pip-3.2 install apscheduler
+# 2:
+# sudo easy_install apscheduler
 #
 # TODO:
 # - Check config params are defined
@@ -13,6 +15,7 @@
 
 # When run in directory containing downloaded PyIsy
 import sys
+sys.path.insert(0,".")
 sys.path.insert(0,"../PyISY")
 
 # Load our dependancies
@@ -21,9 +24,12 @@ import requests
 import logging
 import yaml
 from datetime import datetime
-from apscheduler.schedulers.blocking import BlockingScheduler
+#from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 import PyISY
 from asus import AsusDeviceScanner
+from PylDevice import PylDevice
+from PylREST import PylREST
 
 # Load the config file.
 config_file = open('config.yaml', 'r')
@@ -73,9 +79,9 @@ def day_function():
 minute_function()
 hour_function()
 day_function()
-router_check()
+#router_check()
 
-sched = BlockingScheduler()
+sched = BackgroundScheduler()
 
 # Schedules second_function to be run at the change of each second.
 #sched.add_job(second_function, 'cron', second='0-59')
@@ -89,6 +95,18 @@ sched.add_job(hour_function, 'cron', minute='0', second='0')
 # Schedules day_function to be run at the start of each day.
 sched.add_job(day_function, 'cron', minute='0', second='0', hour='0')
 
-sched.add_job(router_check, 'cron', minute="10,20,30,40,50")
+#sched.add_job(router_check, 'cron', minute="10,20,30,40,50")
 
 sched.start()
+
+print("Configuring devices...")
+#print config['devices']
+# Setup the devices
+devices = []
+for device in config['devices']:
+    # dict by ip for lookup
+    devices.append(PylDevice(device,isy,sched))
+
+print("Starting REST interface...")
+rest = PylREST(devices)
+rest.run()

@@ -8,6 +8,16 @@
 # This can be tested with this address:  http://190.53.26.252/update_clients.asp
 #
 
+#<form method="post" name="networkmapdRefresh" action="/apply.cgi" target="hidden_frame">
+#<input type="hidden" name="action_mode" value="update_client_list">
+#<input type="hidden" name="action_script" value="">
+#<input type="hidden" name="action_wait" value="1">
+#<input type="hidden" name="current_page" value="httpd_check.xml">
+#<input type="hidden" name="next_page" value="httpd_check.xml">
+#<input type="hidden" name="client_info_tmp" value="">
+#</form>
+
+
 import re
 import requests
 
@@ -49,12 +59,12 @@ class AsusDeviceScanner(object):
         print("Logout: "+str(response.status_code))
 
     def refresh(self):
-        #url = 'http://{}/apply.cgi?refresh_networkmap'.format(self.host)
-        url = 'http://{}/apply.cgi?update_client_list'.format(self.host)
+        url = 'http://{}/apply.cgi?refresh_networkmap'.format(self.host)
+        #url = 'http://{}/apply.cgi?update_client_list'.format(self.host)
         response = requests.get(
             url,
             auth=(self.user,self.password),
-            timeout=4
+            timeout=30
             )
         print("Refresh: "+str(response.status_code))
 
